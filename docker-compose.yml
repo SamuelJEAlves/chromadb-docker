@@ -1,0 +1,13 @@
+services:
+  vectordb:
+    image: ghcr.io/chroma-core/chroma:0.5.4
+    container_name: chromadb_docker
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    volumes:
+      - ./chroma:/chroma/chroma
+      - ./config:/chroma/config
+    command: uvicorn chromadb.app:app --reload --workers 1 --host 0.0.0.0 --port 8000 --log-config chromadb/log_config.yml
+    restart: unless-stopped
